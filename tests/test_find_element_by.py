@@ -1,56 +1,63 @@
-import time
-
-from selenium.webdriver.common.by import By
+from find_element import FindElement
 
 
 def test_title_page_opencart(browser):
-    browser.get("https://www.opencart.ru")
-    browser.find_element(By.ID, "logo")
-    browser.find_element(By.ID, "menu")
-    browser.find_element(By.ID, "cart")
-    browser.find_elements(By.CLASS_NAME, "cart__grup")
-    browser.find_elements(By.CLASS_NAME, "login")
+    title_page = FindElement(browser)
+    title_page.open()
+    list_by_id = ["logo", "menu", "cart"]
+    for element in list_by_id:
+        title_page.find_elements_by_id(element)
+    list_by_name = ["cart__grup", "login"]
+    for element in list_by_name:
+        title_page.find_elements_by_id(element)
 
 
 def test_marketplace_page_opencart(browser):
-    browser.get("https://www.opencart.ru/modules/")
-    assert "Модули opencart" in browser.title
-    browser.find_elements(By.ID, "product-category")
-    browser.find_elements(By.CLASS_NAME, "blog-page")
-    browser.find_elements(By.CLASS_NAME, "list-group")
-    browser.find_elements(By.CSS_SELECTOR, "button[type=button-filter]")
+    marketplace_page = FindElement(browser)
+    marketplace_page.open("https://www.opencart.ru/modules/")
+    marketplace_page.verify_title_text(expected_text="Модули opencart")
+    marketplace_page.find_elements_by_id("product-category")
+    list_by_name = ["blog-page", "list-group"]
+    for element in list_by_name:
+        marketplace_page.find_elements_by_id(element)
+    marketplace_page.find_elements_by_css_selector("button[type=button-filter]")
 
 
 def test_product_card_page_opencart(browser):
-    browser.get("https://www.opencart.ru/"
-                "amigration-perenos-dannyh-s-opencart-15-na-opencart-2-modul-migracii-osnovnyh-dannyh-301")
-    assert "Купить A-migration – перенос данных с OpenCart 1.5. * на OpenCart 2." \
-           " * - модуль миграции основных данных" in browser.title
-    browser.find_elements(By.ID, "product-product")
-    browser.find_elements(By.CLASS_NAME, "product__title")
-    browser.find_elements(By.CLASS_NAME, "rating__svg")
-    browser.find_elements(By.CLASS_NAME, "star-no")
-    browser.find_elements(By.CLASS_NAME, "purchase__block")
-    browser.find_elements(By.CSS_SELECTOR, "button[type=button-cart]")
+    prod_cart_page = FindElement(browser)
+    prod_cart_page.open("https://www.opencart.ru/"
+                        "amigration-perenos-dannyh-s-opencart-15-na-opencart-2-modul-migracii-osnovnyh-dannyh-301")
+    prod_cart_page.verify_title_text("Купить A-migration – перенос данных с OpenCart 1.5. * на OpenCart 2."
+                                     " * - модуль миграции основных данных")
+    prod_cart_page.find_elements_by_id("product-product")
+    list_by_name = ["product__title", "rating__svg", "star-no", "purchase__block"]
+    for element in list_by_name:
+        prod_cart_page.find_elements_by_id(element)
+    prod_cart_page.find_elements_by_css_selector("button[type=button-cart]")
 
 
 def test_login_page_user_opencart(browser):
-    browser.get("https://www.opencart.ru/login/")
-    assert "Авторизация" in browser.title
-    browser.find_elements(By.ID, "account-login")
-    browser.find_elements(By.CLASS_NAME, "breadcrumb blog")
-    browser.find_elements(By.LINK_TEXT, "Личный Кабинет")
-    browser.find_elements(By.ID, "customer_form")
-    browser.find_elements(By.ID, "login__input-email")
-    browser.find_elements(By.CSS_SELECTOR, "button[type=submit]")
+    login_page_user = FindElement(browser)
+    login_page_user.open("https://www.opencart.ru/login/")
+    login_page_user.verify_title_text("Авторизация")
+    login_page_user.find_elements_by_id("account-login")
+    login_page_user.find_elements_by_name("breadcrumb blog")
+    login_page_user.find_elements_by_link_text("Личный Кабинет")
+    list_by_name = ["customer_form", "login__input-email"]
+    for element in list_by_name:
+        login_page_user.find_elements_by_id(element)
+    login_page_user.find_elements_by_css_selector("button[type=submit]")
 
 
 def test_register_user_page_opencart(browser):
-    browser.get("https://www.opencart.ru/register/")
-    assert "Регистрация" in browser.title
-    browser.find_elements(By.ID, "account-register")
-    browser.find_elements(By.ID, "customer_form")
-    browser.find_elements(By.LINK_TEXT, "Основные данные")
-    browser.find_elements(By.NAME, "firstname")
-    browser.find_elements(By.NAME, "lastname")
-    browser.find_elements(By.CSS_SELECTOR, "button[type=submit]")
+    register_user_page = FindElement(browser)
+    register_user_page.open("https://www.opencart.ru/register/")
+    register_user_page.verify_title_text("Регистрация")
+    list_by_id = ["account-register", "customer_form"]
+    for element in list_by_id:
+        register_user_page.find_elements_by_id(element)
+    register_user_page.find_elements_by_link_text("Основные данные")
+    list_by_name = ["firstname", "lastname"]
+    for element in list_by_name:
+        register_user_page.find_elements_by_name(element)
+    register_user_page.find_elements_by_css_selector("button[type=submit]")
