@@ -2,8 +2,6 @@ import time
 
 from selenium.webdriver.common.by import By
 
-from find_element import FindElement
-
 
 class RegisterNewUser:
 
@@ -12,7 +10,6 @@ class RegisterNewUser:
 
     def add_user_data(self, firstname, lastname, email, password):
 
-        add_user_data = FindElement(self.browser)
         self.browser.find_element(By.NAME, "firstname").clear()
         self.browser.find_element(By.NAME, "firstname").send_keys(firstname)
 
@@ -25,5 +22,5 @@ class RegisterNewUser:
         self.browser.find_element(By.ID, "input-password").clear()
         self.browser.find_element(By.ID, "input-password").send_keys(password)
 
-        add_user_data.find_and_click_element_by_name(expected_text="agree")
-        add_user_data.find_and_click_element_by_css_selector(expected_text='[type="submit"]')
+        self.browser.find_element(By.NAME, "agree").click()
+        self.browser.find_element(By.CSS_SELECTOR, '[type="submit"]').click()
